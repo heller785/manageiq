@@ -19,7 +19,7 @@
 .tags
 /data/*
 /productization
-/plugins
+#/plugins
 /vmdb/
 BUILD
 ca/root
