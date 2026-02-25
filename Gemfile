@@ -21,7 +21,7 @@ manageiq_plugin "manageiq-schema"
 
 # Unmodified gems
 gem "activerecord-session_store",       "~>2.0"
-gem "activerecord-virtual_attributes",  "~>7.2.0.1"
+gem "activerecord-virtual_attributes",  "~>8.0.0"
 gem "acts_as_tree",                     "~>2.7" # acts_as_tree needs to be required so that it loads before ancestry
 gem "ancestry",                         "~>4.1.0",           :require => false
 gem "awesome_spawn",                    "~>1.6",             :require => false
@@ -43,15 +43,15 @@ gem "gettext_i18n_rails",               "~>1.11"
 gem "gettext_i18n_rails_js",            "~>1.3.0"
 gem "hamlit",                           "~>2.11.0"
 gem "inifile",                          "~>3.0",             :require => false
-gem "inventory_refresh",                "~>2.2",             :require => false
+gem "inventory_refresh",                "~>2.3",             :require => false
 gem "kubeclient",                       "~>4.0",             :require => false # For scaling pods at runtime
 gem "linux_admin",                      ">=3.0", "<5",       :require => false
 gem "listen",                           "~>3.2",             :require => false
-gem "manageiq-api-client",              "~>0.6.0",           :require => false
+gem "manageiq-api-client",              "~>0.7",             :require => false
 gem "manageiq-loggers",                 "~>1.2", ">= 1.2.1", :require => false
-gem "manageiq-messaging",               "~>2.0",             :require => false
+gem "manageiq-messaging",               "~>2.1",             :require => false
 gem "manageiq-password",                "~>1.0",             :require => false
-gem "manageiq-postgres_ha_admin",       "~>3.4",             :require => false
+gem "manageiq-postgres_ha_admin",       "~>3.5",             :require => false
 gem "manageiq-ssh-util",                "~>0.2.0",           :require => false
 gem "memoist",                          "~>0.16.0",          :require => false
 gem "money",                            "~>6.13.5",          :require => false
@@ -65,10 +65,10 @@ gem "pg-dsn_parser",                    "~>0.1.1",           :require => false
 gem "prism",                            ">=0.25.0",          :require => false # Used by DescendantLoader
 gem "psych",                            ">=3.1",             :require => false # 3.1 safe_load changed positional to kwargs like aliases: true: https://github.com/ruby/psych/commit/4d4439d6d0adfcbd211ea295779315f1baa7dadd
 gem "query_relation",                   "~>0.2.0",           :require => false
-gem "rack",                             ">=2.2.20",          :require => false # https://github.com/advisories/GHSA-6xw4-3v39-52mm https://github.com/advisories/GHSA-6xw4-3v39-52mm https://github.com/advisories/GHSA-6xw4-3v39-52mm https://github.com/advisories/GHSA-6xw4-3v39-52mm https://github.com/advisories/GHSA-6xw4-3v39-52mm https://github.com/advisories/GHSA-6xw4-3v39-52mm
+gem "rack",                             ">=2.2.22",          :require => false
 gem "rack-attack",                      "~>6.8.0",           :require => false
-gem "rails",                            "~>7.2.3"
-gem "rails-i18n",                       "~>7.x"
+gem "rails",                            "~>8.0.4"
+gem "rails-i18n",                       "~>8.0.2"
 gem "rake",                             ">=12.3.3",          :require => false
 gem "rest-client",                      "~>2.1.0",           :require => false
 gem "ruby_parser",                                           :require => false # Required for i18n string extraction, and DescentdantLoader (via prism)
@@ -83,7 +83,8 @@ gem "terminal",                                              :require => false
 gem "wim_parser",                       "~>1.0",             :require => false
 
 # gems to resolve security issues
-gem "cgi",  "~> 0.4.2"  # CVE-2025-27219: https://github.com/advisories/GHSA-gh9q-2xrm-x6qv
+gem "cgi",  "~> 0.5"
+gem "faraday", "~> 2.14", ">= 2.14.1" # CVE-2026-25765: https://github.com/advisories/GHSA-33mh-2634-fwr2
 gem "time", "~> 0.2.2"  # CVE-2023-28756: https://github.com/advisories/GHSA-fg7x-g82r-94qc; ruby 3.1.4+
 gem "uri",  "~> 0.13.3" # CVE-2025-61594: https://www.ruby-lang.org/en/news/2025/10/07/uri-cve-2025-61594/
                         # Avoid URI 1.0.0 for now due to: https://github.com/ruby/uri/issues/125
@@ -134,6 +135,8 @@ end
 
 group :azure_stack, :manageiq_default do
   manageiq_plugin "manageiq-providers-azure_stack"
+  gem "ms_rest",              "~> 0.7.6.1",  :require => false, :source => "https://rubygems.manageiq.org"
+  gem "ms_rest_azure",        "~> 0.12.0.1",  :require => false, :source => "https://rubygems.manageiq.org"
   gem "azure_mgmt_compute",   "~> 0.22.0.1", :require => false, :source => "https://rubygems.manageiq.org"
   gem "azure_mgmt_monitor",   "~> 0.19.0.1", :require => false, :source => "https://rubygems.manageiq.org"
   gem "azure_mgmt_network",   "~> 0.26.1.1", :require => false, :source => "https://rubygems.manageiq.org"
@@ -202,6 +205,10 @@ end
 
 group :oracle_cloud, :manageiq_default do
   manageiq_plugin "manageiq-providers-oracle_cloud"
+end
+
+group :proxmox, :manageiq_default do
+  manageiq_plugin "manageiq-providers-proxmox"
 end
 
 group :redfish, :manageiq_default do
@@ -275,7 +282,7 @@ group :seed, :manageiq_default do
 end
 
 group :smartstate, :manageiq_default do
-  gem "manageiq-smartstate",            "~>0.11.1",           :require => false
+  gem "manageiq-smartstate",            "~>0.12",            :require => false
 end
 
 group :consumption, :manageiq_default do
@@ -301,7 +308,7 @@ group :web_socket, :manageiq_default do
 end
 
 group :appliance, :optional => true do
-  gem "manageiq-appliance_console",     "~>10.0", ">=10.0.2", :require => false
+  gem "manageiq-appliance_console",     "~>11.0",            :require => false
 end
 
 ### Development and test gems are excluded from appliance and container builds to reduce size and license issues
@@ -315,7 +322,7 @@ end
 group :test do
   gem "brakeman",                       "~>6.2",             :require => false
   gem "bundler-audit",                                       :require => false
-  gem "capybara",                       "~>2.18.0",           :require => false
+  gem "capybara",                       "~>2.18.0",          :require => false
   gem "db-query-matchers",              "~>0.15.0"
   gem "factory_bot",                    "~>6.5",             :require => false
   gem "simplecov",                      ">=0.21.2",          :require => false
